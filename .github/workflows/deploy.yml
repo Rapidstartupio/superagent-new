@@ -78,6 +78,8 @@ jobs:
 
             echo "Setting execute permission for run.sh..."
             chmod +x ./run.sh
+            chmod +x ./stop.sh
+            chmod +x ./uninstall.sh
 
             echo "Deploying to production..."
             ./run.sh
