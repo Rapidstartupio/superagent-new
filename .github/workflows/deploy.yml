@@ -74,7 +74,7 @@ jobs:
             cd superagent-new/libs/.docker
 
             # Corrected .env file creation script
-            cat > .env <<-ENDOFFILE
+            cat <<EOF > .env
             POSTGRES_USER=$POSTGRES_USER
             POSTGRES_PASSWORD=$POSTGRES_PASSWORD
             POSTGRES_DB_PORT=$POSTGRES_DB_PORT
@@ -115,7 +115,7 @@ jobs:
             NEXT_PUBLIC_SEGMENT_WRITE_KEY=$NEXT_PUBLIC_SEGMENT_WRITE_KEY
             NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY=$NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY
             NEXT_PUBLIC_LANGFUSE_BASE_URL=$NEXT_PUBLIC_LANGFUSE_BASE_URL
-            ENDOFFILE
+            EOF
 
             ./run.sh
           EOF
