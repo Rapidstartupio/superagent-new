@@ -76,6 +76,8 @@ jobs:
             echo NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY=${{ secrets.NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY }} >> .env
             echo NEXT_PUBLIC_LANGFUSE_BASE_URL=${{ secrets.NEXT_PUBLIC_LANGFUSE_BASE_URL }} >> .env
 
+            echo "Setting execute permission for run.sh..."
+            chmod +x ./run.sh
 
             echo "Deploying to production..."
             ./run.sh
