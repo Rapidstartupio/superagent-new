@@ -1,6 +1,6 @@
 services:
   pgadmin:
-    container_name: pgadmin
+    container_name: pgadmin_new
     networks:
       - superagent_network
     image: dpage/pgadmin4
@@ -14,12 +14,12 @@ services:
       - 5050:5050
     volumes:
       - type: volume
-        source: pgadmin-data
+        source: pgadmin-data_new
         target: /root/.pgadmin
     restart: unless-stopped
 
 volumes:
-  pgadmin-data:
+  pgadmin-data_new:
 
 networks:
   superagent_network:

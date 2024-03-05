@@ -16,6 +16,6 @@ docker compose -f docker-compose.yml \
         up \
         --build \
         -d
-        
-docker logs superagent-ui
-docker logs superagent-api
+
+docker logs superagent-ui_new
+docker logs superagent-api_new

@@ -1,14 +1,14 @@
 name: superagent
 services:
   pgdb:
-    container_name: pgdb
+    container_name: pgdb_new
     networks:
       - superagent_network
     image: postgres:12
     restart: unless-stopped
     volumes:
       - type: volume
-        source: pgdb-data
+        source: pgdb-data_new
         target: "/var/lib/postgresql/data"
     environment:
       POSTGRES_DB: ${POSTGRES_USER}
@@ -23,7 +23,7 @@ services:
       retries: 3
 
 volumes:
-  pgdb-data:
+  pgdb-data_new:
 
 networks:
   superagent_network:
