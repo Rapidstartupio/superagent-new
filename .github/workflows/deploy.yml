@@ -46,9 +46,9 @@ jobs:
                docker network create superagent_network
             fi
 
-            rm -rf superagent_new_stable_version
-            git clone https://x-access-token:${{ secrets.ORG_GH_TOKEN }}@github.com/Rapidstartupio/superagent_new_stable_version.git
-            cd superagent_new_stable_version/libs/.docker
+            rm -rf superagent-new
+            git clone https://x-access-token:${{ secrets.ORG_GH_TOKEN }}@github.com/Rapidstartupio/superagent-new.git
+            cd superagent-new/libs/.docker
 
             # Create the .env file from GitHub Secrets
             cat > .env << ENDOFFILE
