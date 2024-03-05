@@ -117,5 +117,6 @@ jobs:
             NEXT_PUBLIC_LANGFUSE_BASE_URL=$NEXT_PUBLIC_LANGFUSE_BASE_URL
             EOF
 
+            echo "Deploying to production..."
             ./run.sh
           EOF
