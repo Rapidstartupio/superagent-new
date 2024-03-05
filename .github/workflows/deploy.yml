@@ -43,7 +43,7 @@ jobs:
           E2B_API_KEY: ${{ secrets.E2B_API_KEY }}
           AGENTOPS_ORG_KEY: ${{ secrets.AGENTOPS_ORG_KEY }}
           LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
-          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY
+          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
           LANGFUSE_HOST: ${{ secrets.LANGFUSE_HOST }}
           LANGCHAIN_TRACING_V2: ${{ secrets.LANGCHAIN_TRACING_V2 }}
           LANGCHAIN_ENDPOINT: ${{ secrets.LANGCHAIN_ENDPOINT }}
