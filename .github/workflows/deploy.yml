@@ -19,47 +19,6 @@ jobs:
           ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
 
       - name: Deploy to production
-        env:  # Declare the environment variables here so they can be used in the script
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB_PORT: ${{ secrets.POSTGRES_DB_PORT }}
-          POSTGRES_DB_PORT_INTERNAL: ${{ secrets.POSTGRES_DB_PORT_INTERNAL }}
-          POSTGRES_DB_HOST: ${{ secrets.POSTGRES_DB_HOST }}
-          PGADMIN_DEFAULT_EMAIL: ${{ secrets.PGADMIN_DEFAULT_EMAIL }}
-          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
-          SUPERAGENT_API_URL: ${{ secrets.SUPERAGENT_API_URL }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DATABASE_MIGRATION_URL: ${{ secrets.DATABASE_MIGRATION_URL }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          MEMORY_API_URL: ${{ secrets.MEMORY_API_URL }}
-          VECTORSTORE: ${{ secrets.VECTORSTORE }}
-          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
-          PINECONE_INDEX: ${{ secrets.PINECONE_INDEX }}
-          PINECONE_ENVIRONMENT: ${{ secrets.PINECONE_ENVIRONMENT }}
-          QDRANT_INDEX: ${{ secrets.QDRANT_INDEX }}
-          WEAVIATE_INDEX: ${{ secrets.WEAVIATE_INDEX }}
-          E2B_API_KEY: ${{ secrets.E2B_API_KEY }}
-          AGENTOPS_ORG_KEY: ${{ secrets.AGENTOPS_ORG_KEY }}
-          LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
-          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
-          LANGFUSE_HOST: ${{ secrets.LANGFUSE_HOST }}
-          LANGCHAIN_TRACING_V2: ${{ secrets.LANGCHAIN_TRACING_V2 }}
-          LANGCHAIN_ENDPOINT: ${{ secrets.LANGCHAIN_ENDPOINT }}
-          LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
-          LANGSMITH_PROJECT_ID: ${{ secrets.LANGSMITH_PROJECT_ID }}
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-          SUPABASE_HOST: ${{ secrets.SUPABASE_HOST }}
-          SUPABASE_PORT: ${{ secrets.SUPABASE_PORT }}
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          NEXT_PUBLIC_SUPERAGENT_API_URL: ${{ secrets.NEXT_PUBLIC_SUPERAGENT_API_URL }}
-          NEXT_PUBLIC_SUPABASE_STORAGE_NAME: ${{ secrets.NEXT_PUBLIC_SUPABASE_STORAGE_NAME }}
-          NEXT_PUBLIC_SEGMENT_WRITE_KEY: ${{ secrets.NEXT_PUBLIC_SEGMENT_WRITE_KEY }}
-          NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY: ${{ secrets.NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY }}
-          NEXT_PUBLIC_LANGFUSE_BASE_URL: ${{ secrets.NEXT_PUBLIC_LANGFUSE_BASE_URL }}
 
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
@@ -77,47 +36,45 @@ jobs:
             touch .env
 
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
-            echo POSTGRES_PASSWORD=$POSTGRES_PASSWORD >> .env
-            echo POSTGRES_DB_PORT=$POSTGRES_DB_PORT >> .env
-            echo POSTGRES_DB_PORT_INTERNAL=$POSTGRES_DB_PORT_INTERNAL >> .env
-            echo POSTGRES_DB_HOST=$POSTGRES_DB_HOST >> .env
-            echo PGADMIN_DEFAULT_EMAIL=$PGADMIN_DEFAULT_EMAIL >> .env
-            echo PGADMIN_DEFAULT_PASSWORD=$PGADMIN_DEFAULT_PASSWORD >> .env
-            echo SUPERAGENT_API_URL=$SUPERAGENT_API_URL >> .env
-            echo OPENAI_API_KEY=$OPENAI_API_KEY >> .env
-            echo DATABASE_URL=$DATABASE_URL >> .env
-            echo DATABASE_MIGRATION_URL=$DATABASE_MIGRATION_URL >> .env
-            echo JWT_SECRET=$JWT_SECRET >> .env
-            echo OPENROUTER_API_KEY=$OPENROUTER_API_KEY >> .env
-            echo MEMORY_API_URL=$MEMORY_API_URL >> .env
-            echo VECTORSTORE=$VECTORSTORE >> .env
-            echo PINECONE_API_KEY=$PINECONE_API_KEY >> .env
-            echo PINECONE_INDEX=$PINECONE_INDEX >> .env
-            echo PINECONE_ENVIRONMENT=$PINECONE_ENVIRONMENT >> .env
-            echo QDRANT_INDEX=$QDRANT_INDEX >> .env
-            echo WEAVIATE_INDEX=$WEAVIATE_INDEX >> .env
-            echo E2B_API_KEY=$E2B_API_KEY >> .env
-            echo AGENTOPS_ORG_KEY=$AGENTOPS_ORG_KEY >> .env
-            echo LANGFUSE_PUBLIC_KEY=$LANGFUSE_PUBLIC_KEY >> .env
-            echo LANGFUSE_SECRET_KEY=$LANGFUSE_SECRET_KEY >> .env
-            echo LANGFUSE_HOST=$LANGFUSE_HOST >> .env
-            echo LANGCHAIN_TRACING_V2=$LANGCHAIN_TRACING_V2 >> .env
-            echo LANGCHAIN_ENDPOINT=$LANGCHAIN_ENDPOINT >> .env
-            echo LANGCHAIN_API_KEY=$LANGCHAIN_API_KEY >> .env
-            echo LANGSMITH_PROJECT_ID=$LANGSMITH_PROJECT_ID >> .env
-            echo SUPABASE_DB_URL=$SUPABASE_DB_URL >> .env
-            echo SUPABASE_HOST=$SUPABASE_HOST >> .env
-            echo SUPABASE_PORT=$SUPABASE_PORT >> .env
-            echo NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL >> .env
-            echo NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY >> .env
-            echo SUPABASE_ACCESS_TOKEN=$SUPABASE_ACCESS_TOKEN >> .env
-            echo NEXT_PUBLIC_SUPERAGENT_API_URL=$NEXT_PUBLIC_SUPERAGENT_API_URL >> .env
-            echo NEXT_PUBLIC_SUPABASE_STORAGE_NAME=$NEXT_PUBLIC_SUPABASE_STORAGE_NAME >> .env
-            echo NEXT_PUBLIC_SEGMENT_WRITE_KEY=$NEXT_PUBLIC_SEGMENT_WRITE_KEY >> .env
-            echo NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY=$NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY >> .env
-            echo NEXT_PUBLIC_LANGFUSE_BASE_URL=$NEXT_PUBLIC_LANGFUSE_BASE_URL >> .env
-
-
+            echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+            echo POSTGRES_DB_PORT=${{ secrets.POSTGRES_DB_PORT }} >> .env
+            echo POSTGRES_DB_PORT_INTERNAL=${{ secrets.POSTGRES_DB_PORT_INTERNAL }} >> .env
+            echo POSTGRES_DB_HOST=${{ secrets.POSTGRES_DB_HOST }} >> .env
+            echo PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }} >> .env
+            echo PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }} >> .env
+            echo SUPERAGENT_API_URL=${{ secrets.SUPERAGENT_API_URL }} >> .env
+            echo OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} >> .env
+            echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+            echo DATABASE_MIGRATION_URL=${{ secrets.DATABASE_MIGRATION_URL }} >> .env
+            echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+            echo OPENROUTER_API_KEY=${{ secrets.OPENROUTER_API_KEY }} >> .env
+            echo MEMORY_API_URL=${{ secrets.MEMORY_API_URL }} >> .env
+            echo VECTORSTORE=${{ secrets.VECTORSTORE }} >> .env
+            echo PINECONE_API_KEY=${{ secrets.PINECONE_API_KEY }} >> .env
+            echo PINECONE_INDEX=${{ secrets.PINECONE_INDEX }} >> .env
+            echo PINECONE_ENVIRONMENT=${{ secrets.PINECONE_ENVIRONMENT }} >> .env
+            echo QDRANT_INDEX=${{ secrets.QDRANT_INDEX }} >> .env
+            echo WEAVIATE_INDEX=${{ secrets.WEAVIATE_INDEX }} >> .env
+            echo E2B_API_KEY=${{ secrets.E2B_API_KEY }} >> .env
+            echo AGENTOPS_ORG_KEY=${{ secrets.AGENTOPS_ORG_KEY }} >> .env
+            echo LANGFUSE_PUBLIC_KEY=${{ secrets.LANGFUSE_PUBLIC_KEY }} >> .env
+            echo LANGFUSE_SECRET_KEY=${{ secrets.LANGFUSE_SECRET_KEY }} >> .env
+            echo LANGFUSE_HOST=${{ secrets.LANGFUSE_HOST }} >> .env
+            echo LANGCHAIN_TRACING_V2=${{ secrets.LANGCHAIN_TRACING_V2 }} >> .env
+            echo LANGCHAIN_ENDPOINT=${{ secrets.LANGCHAIN_ENDPOINT }} >> .env
+            echo LANGCHAIN_API_KEY=${{ secrets.LANGCHAIN_API_KEY }} >> .env
+            echo LANGSMITH_PROJECT_ID=${{ secrets.LANGSMITH_PROJECT_ID }} >> .env
+            echo SUPABASE_DB_URL=${{ secrets.SUPABASE_DB_URL }} >> .env
+            echo SUPABASE_HOST=${{ secrets.SUPABASE_HOST }} >> .env
+            echo SUPABASE_PORT=${{ secrets.SUPABASE_PORT }} >> .env
+            echo NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }} >> .env
+            echo NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }} >> .env
+            echo SUPABASE_ACCESS_TOKEN=${{ secrets.SUPABASE_ACCESS_TOKEN }} >> .env
+            echo NEXT_PUBLIC_SUPERAGENT_API_URL=${{ secrets.NEXT_PUBLIC_SUPERAGENT_API_URL }} >> .env
+            echo NEXT_PUBLIC_SUPABASE_STORAGE_NAME=${{ secrets.NEXT_PUBLIC_SUPABASE_STORAGE_NAME }} >> .env
+            echo NEXT_PUBLIC_SEGMENT_WRITE_KEY=${{ secrets.NEXT_PUBLIC_SEGMENT_WRITE_KEY }} >> .env
+            echo NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY=${{ secrets.NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY }} >> .env
+            echo NEXT_PUBLIC_LANGFUSE_BASE_URL=${{ secrets.NEXT_PUBLIC_LANGFUSE_BASE_URL }} >> .env
 
 
             echo "Deploying to production..."
