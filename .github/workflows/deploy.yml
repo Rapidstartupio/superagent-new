@@ -1,0 +1,100 @@
+name: Deploy to production
+
+on:
+  push:
+    branches:
+      - main  # Change this to your production branch.
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Deploy to production
+        env:  # Declare the environment variables here so they can be used in the script
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB_PORT: ${{ secrets.POSTGRES_DB_PORT }}
+          POSTGRES_DB_PORT_INTERNAL: ${{ secrets.POSTGRES_DB_PORT_INTERNAL }}
+          POSTGRES_DB_HOST: ${{ secrets.POSTGRES_DB_HOST }}
+          PGADMIN_DEFAULT_EMAIL: ${{ secrets.PGADMIN_DEFAULT_EMAIL }}
+          PGADMIN_DEFAULT_PASSWORD: ${{ secrets.PGADMIN_DEFAULT_PASSWORD }}
+          SUPERAGENT_API_URL: ${{ secrets.SUPERAGENT_API_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_MIGRATION_URL: ${{ secrets.DATABASE_MIGRATION_URL }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          MEMORY_API_URL: ${{ secrets.MEMORY_API_URL }}
+          VECTORSTORE: ${{ secrets.VECTORSTORE }}
+          PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
+          PINECONE_INDEX: ${{ secrets.PINECONE_INDEX }}
+          # Add other variables as needed
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
+            set -e
+
+            if ! docker network ls | grep -q superagent_network; then
+               docker network create superagent_network
+            fi
+
+            rm -rf superagent_new_stable_version
+            git clone https://x-access-token:${{ secrets.ORG_GH_TOKEN }}@github.com/Rapidstartupio/superagent_new_stable_version.git
+            cd superagent_new_stable_version/libs/.docker
+
+            # Create the .env file from GitHub Secrets
+            cat > .env << ENDOFFILE
+            POSTGRES_USER=$POSTGRES_USER
+            POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+            POSTGRES_DB_PORT=$POSTGRES_DB_PORT
+            POSTGRES_DB_PORT_INTERNAL=$POSTGRES_DB_PORT_INTERNAL
+            POSTGRES_DB_HOST=$POSTGRES_DB_HOST
+            PGADMIN_DEFAULT_EMAIL=$PGADMIN_DEFAULT_EMAIL
+            PGADMIN_DEFAULT_PASSWORD=$PGADMIN_DEFAULT_PASSWORD
+            SUPERAGENT_API_URL=$SUPERAGENT_API_URL
+            OPENAI_API_KEY=$OPENAI_API_KEY
+            DATABASE_URL=$DATABASE_URL
+            DATABASE_MIGRATION_URL=$DATABASE_MIGRATION_URL
+            JWT_SECRET=$JWT_SECRET
+            OPENROUTER_API_KEY=$OPENROUTER_API_KEY
+            MEMORY_API_URL=$MEMORY_API_URL
+            VECTORSTORE=$VECTORSTORE
+            PINECONE_API_KEY=$PINECONE_API_KEY
+            PINECONE_INDEX=$PINECONE_INDEX
+            PINECONE_ENVIRONMENT=$PINECONE_ENVIRONMENT
+            QDRANT_INDEX=$QDRANT_INDEX
+            WEAVIATE_INDEX=$WEAVIATE_INDEX
+            E2B_API_KEY=$E2B_API_KEY
+            AGENTOPS_ORG_KEY=$AGENTOPS_ORG_KEY
+            LANGFUSE_PUBLIC_KEY=$LANGFUSE_PUBLIC_KEY
+            LANGFUSE_SECRET_KEY=$LANGFUSE_SECRET_KEY
+            LANGFUSE_HOST=$LANGFUSE_HOST
+            LANGCHAIN_TRACING_V2=$LANGCHAIN_TRACING_V2
+            LANGCHAIN_ENDPOINT=$LANGCHAIN_ENDPOINT
+            LANGCHAIN_API_KEY=$LANGCHAIN_API_KEY
+            LANGSMITH_PROJECT_ID=$LANGSMITH_PROJECT_ID
+            SUPABASE_DB_URL=$SUPABASE_DB_URL
+            SUPABASE_HOST=$SUPABASE_HOST
+            SUPABASE_PORT=$SUPABASE_PORT
+            NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+            NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+            SUPABASE_ACCESS_TOKEN=$SUPABASE_ACCESS_TOKEN
+            NEXT_PUBLIC_SUPERAGENT_API_URL=$NEXT_PUBLIC_SUPERAGENT_API_URL
+            NEXT_PUBLIC_SUPABASE_STORAGE_NAME=$NEXT_PUBLIC_SUPABASE_STORAGE_NAME
+            NEXT_PUBLIC_SEGMENT_WRITE_KEY=$NEXT_PUBLIC_SEGMENT_WRITE_KEY
+            NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY=$NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY
+            NEXT_PUBLIC_LANGFUSE_BASE_URL=$NEXT_PUBLIC_LANGFUSE_BASE_URL
+
+            # Add other environment variables as needed
+            ENDOFFILE
+
+            ./run.sh
+          EOF
